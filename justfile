@@ -11,6 +11,10 @@ dev-restart:
     @just dev-down
     @just dev-up
 
+fix-rights:
+    sudo chown $USER:docker -R ./*
+    sudo chmod -R a+w ./*
+
 composer-install:
     docker exec workout-php bash -c "composer install --no-scripts"
 
