@@ -14,8 +14,16 @@ class WorkoutExercice
     #[ORM\Id, ORM\GeneratedValue(strategy: 'AUTO')]
     private int $id;
 
-    public function __construct(int $id)
+    #[ORM\ManyToOne(targetEntity: Workout::class)]
+    private Workout $workout;
+
+    #[ORM\ManyToOne(targetEntity: Exercise::class)]
+    private Exercise $exercise;
+
+    public function __construct(int $id, Workout $workout, Exercise $exercise)
     {
         $this->id = $id;
+        $this->workout = $workout;
+        $this->exercise = $exercise;
     }
 }
