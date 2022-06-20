@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,6 +20,9 @@ class WorkoutExercice
 
     #[ORM\ManyToOne(targetEntity: Exercise::class)]
     private Exercise $exercise;
+
+    #[Orm\OneToMany(mappedBy: 'workoutExercice', targetEntity: Repetition::class)]
+    private Collection $repetitions;
 
     public function __construct(int $id, Workout $workout, Exercise $exercise)
     {
