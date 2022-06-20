@@ -20,4 +20,11 @@ class Workout
 
     #[ORM\Column(type: 'carbon_immutable', nullable: false)]
     private CarbonImmutable $endedAt;
+
+    public function __construct(int $id, CarbonImmutable $createdAt, CarbonImmutable $endedAt)
+    {
+        $this->id = $id;
+        $this->createdAt = $createdAt;
+        $this->endedAt = $endedAt;
+    }
 }

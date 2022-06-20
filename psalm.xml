@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<psalm
+        errorLevel="1"
+        resolveFromConfigFile="true"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+        errorBaseline="psalm-baseline.xml"
+        cacheDirectory="var/cache/psalm"
+        findUnusedCode="true"
+>
+    <projectFiles>
+        <directory name="src" />
+        <ignoreFiles>
+            <directory name="vendor" />
+        </ignoreFiles>
+    </projectFiles>
+
+    <issueHandlers>
+        <PossiblyUnusedMethod>
+            <errorLevel type="suppress">
+                <!-- we activated findUnusedCode but are only interested in UnusedProperty for now -->
+                <directory name="src" />
+            </errorLevel>
+        </PossiblyUnusedMethod>
+        <PossiblyUnusedProperty>
+            <errorLevel type="suppress">
+                <!-- we activated findUnusedCode but are only interested in UnusedProperty for now -->
+                <directory name="src" />
+            </errorLevel>
+        </PossiblyUnusedProperty>
+        <PossiblyUnusedReturnValue>
+            <errorLevel type="suppress">
+                <!-- we activated findUnusedCode but are only interested in UnusedProperty for now -->
+                <directory name="src" />
+            </errorLevel>
+        </PossiblyUnusedReturnValue>
+        <UnnecessaryVarAnnotation>
+            <errorLevel type="suppress">
+                <!-- PhpStorm does not understand all Psalm annotations, so we have to help it with @var sometimes -->
+                <directory name="src" />
+            </errorLevel>
+        </UnnecessaryVarAnnotation>
+        <UnusedClass>
+            <errorLevel type="suppress">
+                <!-- we activated findUnusedCode but are only interested in UnusedProperty for now -->
+                <directory name="src" />
+            </errorLevel>
+        </UnusedClass>
+        <UnusedMethod>
+            <errorLevel type="suppress">
+                <!-- we activated findUnusedCode but are only interested in UnusedProperty for now -->
+                <directory name="src" />
+            </errorLevel>
+        </UnusedMethod>
+        <UnusedParam>
+            <errorLevel type="suppress">
+            </errorLevel>
+        </UnusedParam>
+        <UnusedProperty>
+            <errorLevel type="suppress">
+                <!-- entities may occasionally have properties unused in the code, but mapped to the db -->
+                <directory name="src/Infrastructure/Doctrine/Entity" />
+            </errorLevel>
+        </UnusedProperty>
+        <MixedAssignment>
+            <errorLevel type="suppress">
+                <!-- we are free to assign mixed values, most important is to check the type of content when used -->
+                <directory name="src" />
+            </errorLevel>
+        </MixedAssignment>
+    </issueHandlers>
+</psalm>
+
