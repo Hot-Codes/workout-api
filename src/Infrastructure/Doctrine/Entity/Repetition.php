@@ -27,11 +27,12 @@ class Repetition
     #[ORM\ManyToOne(targetEntity: WorkoutExercice::class)]
     private WorkoutExercice $workoutExercise;
 
-    public function __construct(int $id, WorkoutExercice $workoutExercise, int $number, int $weight)
+    public function __construct(int $id, WorkoutExercice $workoutExercise, int $number, int $weight, MassUnitEnum $massUnit)
     {
         $this->id = $id;
         $this->workoutExercise = $workoutExercise;
         $this->number = $number;
         $this->weight = $weight;
+        $this->massUnit = $massUnit;
     }
 }

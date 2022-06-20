@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Home;
 
 use App\Infrastructure\Doctrine\Entity\Exercise;
@@ -16,10 +18,9 @@ class HomeController
     ) {
     }
 
-
     public function home(): Response
     {
-        $exercise = new Exercise(1, "Bench press");
+        $exercise = new Exercise(1, 'Bench press');
         $this->entityManager->persist($exercise);
 
         $workout = new Workout(1000, CarbonImmutable::now(), CarbonImmutable::now());
@@ -27,6 +28,6 @@ class HomeController
 
         $this->entityManager->flush();
 
-        return new JsonResponse(["state" => "OK"]);
+        return new JsonResponse(['state' => 'OK']);
     }
 }
