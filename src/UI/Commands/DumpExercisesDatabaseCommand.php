@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Commands\DumpExercisesDatabase;
+namespace App\UI\Commands;
 
 use App\Infrastructure\Dumper\MuscleAndStrength\MuscleAndStrengthDumper;
 use Symfony\Component\Console\Command\Command;
