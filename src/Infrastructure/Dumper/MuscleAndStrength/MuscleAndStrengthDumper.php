@@ -44,7 +44,7 @@ final class MuscleAndStrengthDumper
 
     private function dumpMuscleExercises(string $muscle, OutputInterface $output): void
     {
-        $output->writeln('Dumping ' . $muscle . '...');
+        $output->writeln(sprintf('  » Dumping <fg=red>%s</>...', $muscle));
         try {
             $currentPageUrl = self::DEFAULT_URL . '/' . $muscle . '?page=0&ajax=1';
             $firstPageDom = $this->getPageContent($currentPageUrl);
@@ -58,7 +58,7 @@ final class MuscleAndStrengthDumper
                 $exercises = $currentPageXPath->query('//div[@class = "cell small-12 bp600-6"]');
 
                 $page = new Page($exercises, self::DEFAULT_URL);
-                $page->dump();
+                $page->dump($output);
             }
         } catch (Exception $e) {
             $output->writeln("Can't dump " . $muscle . ' !');
