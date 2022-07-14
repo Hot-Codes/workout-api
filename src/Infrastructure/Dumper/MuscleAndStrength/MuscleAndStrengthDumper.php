@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Dumper\MuscleAndStrength;
 
+use App\Infrastructure\Dumper\MuscleAndStrength\Exercises\Page;
 use DOMDocument;
+use DOMNamedNodeMap;
 use DOMXpath;
 use Exception;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -49,13 +51,14 @@ final class MuscleAndStrengthDumper
             $firstPageXPath = new DOMXpath($firstPageDom);
             $lastPageNumber = $this->getLastPage($firstPageXPath) + 1;
 
-            for ($page = 0; $page < $lastPageNumber; ++$page) {
+            for ($pageCount = 0; $pageCount < $lastPageNumber; ++$pageCount) {
                 $currentPageXPath = new DOMXpath(
-                    $this->getPageContent(self::DEFAULT_URL . '/' . $muscle . '?page=' . $page . '&ajax=1'),
+                    $this->getPageContent(self::DEFAULT_URL . '/' . $muscle . '?page=' . $pageCount . '&ajax=1'),
                 );
                 $exercises = $currentPageXPath->query('//div[@class = "cell small-12 bp600-6"]');
-                dump($page);
-                dump($exercises);
+
+                $page = new Page($exercises, self::DEFAULT_URL);
+                $page->dump();
             }
         } catch (Exception $e) {
             $output->writeln("Can't dump " . $muscle . ' !');
@@ -83,18 +86,29 @@ final class MuscleAndStrengthDumper
         return $dom;
     }
 
-    /**
-     * @throws Exception
-     */
     private function getLastPage(DOMXpath $xpath): int
     {
-        try {
-            $lastPageNodes = $xpath->query('//a[@title = "Go to last page"]');
-            $lastPageUrl = $lastPageNodes->item(0)?->attributes?->getNamedItem('href')->nodeValue;
+        $lastPageNodes = $xpath->query('//a[@title = "Go to last page"]');
 
-            return (int) explode('&page=', $lastPageUrl)[1];
-        } catch (Exception $exception) {
-            throw new Exception("Can't retrieve last page number", 0, $exception);
+        if ($lastPageNodes->item(0) === null) {
+            return 0;
         }
+
+        /** @var DOMNamedNodeMap $lastPageNodeAttributesMap */
+        $lastPageNodeAttributesMap = $lastPageNodes->item(0)->attributes;
+
+        if ($lastPageNodeAttributesMap->getNamedItem('href') === null) {
+            return 0;
+        }
+
+        $lastPageHref = $lastPageNodeAttributesMap->getNamedItem('href');
+
+        if ($lastPageHref === null || $lastPageHref->nodeValue === null) {
+            return 0;
+        }
+
+        $lastPageUrl = $lastPageHref->nodeValue;
+
+        return (int) explode('&page=', $lastPageUrl)[1];
     }
 }
